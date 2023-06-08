@@ -3,7 +3,8 @@ import React from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import "./slide.css";
-import { products } from "./productdata";
+import { NavLink } from "react-router-dom";
+/* import { products } from "./productdata"; */
 
 const responsive = {
   desktop: {
@@ -19,7 +20,7 @@ const responsive = {
     items: 1,
   },
 };
-const Slide = () => {
+const Slide = ({ title, products }) => {
   return (
     <div className="products_section">
       <div className="products_deal">
@@ -43,16 +44,18 @@ const Slide = () => {
       >
         {products.map((e) => {
           return (
-            <div className="products_item">
-              <div className="product_img">
-                <img src={e.url} alt="productitem" />
+            <NavLink to={`/getproductsone/${e.id}`}>
+              <div className="products_item">
+                <div className="product_img">
+                  <img src={e.url} alt="productitem" />
+                </div>
+                <p className="products_name">{e.title.shortTitle}</p>
+                <p className="products_offer" style={{ color: "#  007185" }}>
+                  {e.discount}
+                </p>
+                <p className="products_explore">{e.tagline}</p>
               </div>
-              <p className="products_name">{e.title.shortTitle}</p>
-              <p className="products_offer" style={{ color: "#  007185" }}>
-                {e.discount}
-              </p>
-              <p className="products_explore">{e.tagline}</p>
-            </div>
+            </NavLink>
           );
         })}
       </Carousel>

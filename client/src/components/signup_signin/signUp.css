@@ -92,6 +92,7 @@ section {
   border: 1px solid #adb1b8;
   outline: none;
   margin-top: 45px;
+  margin-left: -35px;
 }
 
 .create_accountinfo a {
