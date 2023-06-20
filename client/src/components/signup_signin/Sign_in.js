@@ -20,11 +20,42 @@ const Sign_in = () => {
     });
   };
 
+  const senddata = async (e) => {
+    e.preventDefault();
+    const { email, password } = logdata;
+
+    const res = await fetch("/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+
+        password,
+      }),
+    });
+    const data = await res.json();
+    console.log(data);
+
+    if (res.status === 400 || !data) {
+      console.log("invalid details");
+    } else {
+      console.log("data valid");
+      setData({
+        ...logdata,
+
+        email: "",
+        password: "",
+      });
+    }
+  };
+
   return (
     <section>
       <div className="sign_container"></div>
       <div className="sign_form">
-        <form>
+        <form method="POST">
           <h1>Sign-In</h1>
 
           <div className="form_data">
@@ -49,7 +80,9 @@ const Sign_in = () => {
             />
           </div>
 
-          <button className="signin_btn">Continue</button>
+          <button className="signin_btn" onClick={senddata}>
+            Continue
+          </button>
         </form>
         {/* <ToastContainer /> */}
       </div>

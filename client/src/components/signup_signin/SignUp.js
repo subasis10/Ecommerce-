@@ -1,6 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SignUp = () => {
   const [udata, setUdata] = useState({
@@ -10,7 +12,7 @@ const SignUp = () => {
     password: "",
     cpassword: "",
   });
-  /* console.log(udata); */
+  console.log(udata);
   const adddata = (e) => {
     const { name, value } = e.target;
     setUdata(() => {
@@ -21,11 +23,53 @@ const SignUp = () => {
     });
   };
 
+  const senddata = async (e) => {
+    e.preventDefault();
+    const { fname, email, mobile, password, cpassword } = udata;
+
+    const res = await fetch("register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        fname,
+        email,
+        mobile,
+        password,
+        cpassword,
+      }),
+    });
+    const data = await res.json();
+    /* console.log(data); */
+
+    if (res.status === 422 || !data) {
+      /*  alert("no data"); */
+
+      toast.warn("invalid details", {
+        position: "top-center",
+      });
+    } else {
+      /*  alert("data successfully added"); */
+      toast.success("data successfully added", {
+        position: "top-center",
+      });
+      setUdata({
+        ...udata,
+        fname: "",
+        email: "",
+        mobile: "",
+        password: "",
+        cpassword: "",
+      });
+    }
+  };
+
   return (
     <section>
       <div className="sign_container">
         <div className="sign_form">
-          <form>
+          <form method="POST">
             <h1>Create account</h1>
             <div className="form_data">
               <label htmlFor="fname">Your name</label>
@@ -79,7 +123,7 @@ const SignUp = () => {
                 id="cpassword"
               />
             </div>
-            <button type="submit" className="signin_btn">
+            <button className="signin_btn" onClick={senddata}>
               Continue
             </button>
 
@@ -89,6 +133,7 @@ const SignUp = () => {
             </div>
           </form>
         </div>
+        <ToastContainer />
       </div>
     </section>
   );

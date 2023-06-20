@@ -2,17 +2,12 @@ const express = require("express");
 const router = new express.Router();
 const products = require("../models/productSchema");
 const USER = require("../models/userSchema");
-
-// router.get("/",(req,res)=>{
-//     res.send("this is testing routes");
-// });
-
-// get the productsdata api
+const bcrypt = require("bcryptjs");
 
 router.get("/getproducts", async (req, res) => {
   try {
     const producstdata = await products.find();
-    /* console.log("console the data" + producstdata); */
+    /*  console.log("console the data" + producstdata); */
     res.status(201).json(producstdata);
   } catch (error) {
     console.log("error" + error.message);
@@ -60,10 +55,38 @@ router.post("/register", async (req, res) => {
         cpassword,
       });
       const storedata = await finalUser.save();
-      console.log(storedata);
+
       res.status(201).json(storedata);
     }
   } catch (error) {}
+});
+
+//login user api
+
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    res.status(400).json({ error: "fill all data" });
+  }
+
+  try {
+    const userlogin = await USER.findOne({ email: email });
+    /*   console.log(userlogin); */
+
+    if (userlogin) {
+      const isMatch = await bcrypt.compare(password, userlogin.password);
+      console.log(isMatch);
+
+      if (!isMatch) {
+        res.status(400).json({ error: "invalid details" });
+      } else {
+        res.status(201).json(userlogin);
+      }
+    }
+  } catch (error) {
+    res.status(400).json({ error: "invalid details" });
+  }
 });
 
 module.exports = router;
