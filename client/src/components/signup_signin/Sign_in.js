@@ -2,6 +2,8 @@ import React from "react";
 import "./signUp.css";
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Sign_in = () => {
   const [logdata, setData] = useState({
@@ -40,8 +42,14 @@ const Sign_in = () => {
 
     if (res.status === 400 || !data) {
       console.log("invalid details");
+      toast.warn("invalid details", {
+        position: "top-center",
+      });
     } else {
       console.log("data valid");
+      toast.success("user valid", {
+        position: "top-center",
+      });
       setData({
         ...logdata,
 
@@ -91,6 +99,7 @@ const Sign_in = () => {
           <button>Create your Account</button>
         </NavLink>
       </div>
+      <ToastContainer />
     </section>
   );
 };
