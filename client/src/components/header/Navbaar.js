@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "./navbaar.css";
 import SearchIcon from "@mui/icons-material/Search";
 import Badge from "@mui/material/Badge";
@@ -6,10 +6,16 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Avatar from "@mui/material/Avatar";
 import { NavLink } from "react-router-dom";
 import { LoginContext } from "../context/ContextProvider";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import Drawer from "@mui/material/Drawer";
+import Rightheader from "./Rightheader";
 
 const Navbaar = () => {
   const { account, setAccount } = useContext(LoginContext);
   console.log(account);
+
+  const [dropen, setDropen] = useState(false);
 
   const getdetailvaliduser = async () => {
     const res = await fetch("/validuser", {
@@ -31,6 +37,14 @@ const Navbaar = () => {
     }
   };
 
+  const handleopen = () => {
+    setDropen(true);
+  };
+
+  const handledrclose = () => {
+    setDropen(false);
+  };
+
   useEffect(() => {
     getdetailvaliduser();
   }, []);
@@ -39,6 +53,13 @@ const Navbaar = () => {
     <header>
       <nav>
         <div className="left">
+          <IconButton classname="hamburgur" onClick={handleopen}>
+            <MenuIcon style={{ color: "#fff" }} />
+          </IconButton>
+
+          <Drawer open={dropen} onClose={handledrclose}>
+            <Rightheader Logclose={handledrclose} />
+          </Drawer>
           <div className="navlogo">
             <NavLink to="/">
               <img src="./amazon_PNG25.png" alt="" />
