@@ -74,17 +74,17 @@ router.post("/login", async (req, res) => {
 
   try {
     const userlogin = await USER.findOne({ email: email });
-    /*   console.log(userlogin); */
+    console.log(userlogin);
 
     if (userlogin) {
       const isMatch = await bcrypt.compare(password, userlogin.password);
-      /*  console.log(isMatch); */
+      console.log(isMatch);
 
       //token generate
       const token = await userlogin.generateAuthToken();
       console.log(token);
 
-      res.cookie("Amazonweb", token, {
+      res.cookie("Ecom", token, {
         expires: new Date(Date.now() + 900000),
         httpOnly: true,
       });
@@ -107,7 +107,7 @@ router.post("/login", async (req, res) => {
 router.post("/addcart/:id", authenticate, async (req, res) => {
   try {
     const { id } = req.params;
-    const cart = await products.find({ id: id });
+    const cart = await products.findOne({ id: id });
     console.log(cart + "cart value");
 
     const UserContact = await USER.findOne({ _id: req.userID });
@@ -123,6 +123,29 @@ router.post("/addcart/:id", authenticate, async (req, res) => {
     }
   } catch (error) {
     res.status(401).json({ error: "invalid user" });
+  }
+});
+
+// get cart details
+router.get("/cartdetails", authenticate, async (req, res) => {
+  try {
+    const buyuser = await USER.findOne({ _id: req.userID });
+    console.log(buyuser);
+    res.status(201).json(buyuser);
+  } catch (error) {
+    console.log(error + "error for buy now");
+  }
+});
+
+//get valid user
+
+router.get("/validuser", authenticate, async (req, res) => {
+  try {
+    const validuserone = await USER.findOne({ _id: req.userID });
+
+    res.status(201).json(validuserone);
+  } catch (error) {
+    console.log(error + "error ");
   }
 });
 

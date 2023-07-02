@@ -4,7 +4,7 @@ const secretKey = process.env.KEY;
 
 const authenticate = async (req, res, next) => {
   try {
-    const token = req.cookies.Amazonweb;
+    const token = req.cookies.Ecom;
 
     const verifyToken = jwt.verify(token, secretKey);
     console.log(verifyToken);
@@ -17,13 +17,13 @@ const authenticate = async (req, res, next) => {
 
     if (!rootUser) {
       throw new Error("user not found");
-
-      req.token = token;
-      req.rootUser = rootUser;
-      req.userID = rootUser._id;
-
-      next();
     }
+
+    req.token = token;
+    req.rootUser = rootUser;
+    req.userID = rootUser._id;
+
+    next();
   } catch (error) {
     res.status(401).send("unautherized: No token provide");
     console.log(error);

@@ -1,6 +1,21 @@
+import { useState, useEffect } from "react";
 import React from "react";
 
-const Right = () => {
+const Right = ({ item }) => {
+  const [price, setPrice] = useState(0);
+
+  useEffect(() => {
+    totalAmount();
+  }, [item]);
+
+  const totalAmount = () => {
+    let price = 0;
+    item.map((item) => {
+      price += item.price.cost;
+    });
+    setPrice(price);
+  };
+
   return (
     <div className="right_buy">
       <div className="cost_right">
@@ -11,8 +26,8 @@ const Right = () => {
           </span>
         </p>
         <h3>
-          Subtotal (1 items):
-          <span style={{ fontWeight: "700" }}> ₹4050.00</span>
+          Subtotal ({item.length} items):
+          <span style={{ fontWeight: "700" }}> {price}.00</span>
         </h3>
         <button className="rightbuy_btn">Proceed to Buy</button>
         <div className="emi">Emi available</div>
