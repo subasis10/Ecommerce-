@@ -30,7 +30,7 @@ const Right = ({ item }) => {
           <span style={{ fontWeight: "700" }}> {price}.00</span>
         </h3>
         <button className="rightbuy_btn">Proceed to Buy</button>
-        <div className="emi">Emi available</div>
+        <div className="emi">Esewa available</div>
         {/* <h3>
         Subtotal ({iteam.length} items):{" "}
         <span style={{ fontWeight: "700" }}> ₹{price}.00</span>

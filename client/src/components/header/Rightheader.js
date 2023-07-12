@@ -22,11 +22,11 @@ const Rightheader = ({ Logclose }) => {
         </div>
         <div className="nav_btn" onClick={() => Logclose()}>
           <NavLink to="/">Home</NavLink>
-          <NavLink to="/">Shop By Category</NavLink>
-          <Divider style={{ width: "100%", marginLeft: -20 }} />
-          <NavLink to="/" style={{ marginTop: 10 }}>
+          {/* <NavLink to="/">Shop By Category</NavLink> */}
+          {/* <Divider style={{ width: "100%", marginLeft: -20 }} /> */}
+          {/* <NavLink to="/" style={{ marginTop: 10 }}>
             Today's Deal
-          </NavLink>
+          </NavLink> */}
           {account ? (
             <NavLink to="/buynow">Your Order</NavLink>
           ) : (
